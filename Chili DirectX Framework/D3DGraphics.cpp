@@ -34,10 +34,15 @@ D3DGraphics::D3DGraphics( HWND hWnd )
 
     pDirect3D->CreateDevice( D3DADAPTER_DEFAULT,D3DDEVTYPE_HAL,hWnd,
 		D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_PUREDEVICE,&d3dpp,&pDevice );
+
+	pDevice->GetBackBuffer( 0, 0, D3DBACKBUFFER_TYPE_MONO, &pBackBuffer );
+
+	pSysBuffer = new uint[ screen_w * screen_h ];
 }
 
 D3DGraphics::~D3DGraphics()
 {
+	pBackBuffer->Release();
 	if( pDevice )
 	{
 		pDevice->Release();
@@ -52,22 +57,33 @@ D3DGraphics::~D3DGraphics()
 
 void D3DGraphics::PutPixel( int x,int y,int r,int g,int b )
 {
-	IDirect3DSurface9* pBackBuffer = NULL;
-	D3DLOCKED_RECT rect;
+	pSysBuffer[ x + ( y * screen_w ) ] = MakeColor( r, g, b ).val;
+}
 
-	pDevice->GetBackBuffer( 0,0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer );
-	pBackBuffer->LockRect( &rect,NULL,NULL );
-	((D3DCOLOR*)rect.pBits)[ x + (rect.Pitch >> 2) * y ] = D3DCOLOR_XRGB( r,g,b );
-	pBackBuffer->UnlockRect();
-	pBackBuffer->Release();
+void D3DGraphics::PutPixel( int X, int Y, Color C )
+{
+	pSysBuffer[ X + ( Y * screen_w ) ] = C.val;
 }
 
 void D3DGraphics::BeginFrame()
 {
-	pDevice->Clear( 0,NULL,D3DCLEAR_TARGET,D3DCOLOR_XRGB(0,0,0),0.0f,0 );
+	memset( pSysBuffer, 0, sizeof( uint ) * screen_w * screen_h );
 }
 
 void D3DGraphics::EndFrame()
 {
+	pBackBuffer->LockRect( &rect, NULL, NULL );
+	
+	
+	for( int y = 0; y < screen_h; ++y )
+	{
+		int row_offset = y * screen_w;
+		uint* vid_it = &( (uint*)rect.pBits )[ row_offset ];
+		uint* sys_it = &( pSysBuffer[ row_offset ] );
+		
+		memcpy( vid_it, sys_it, sizeof( uint ) * screen_w );
+	}
+
+	pBackBuffer->UnlockRect();
 	pDevice->Present( NULL,NULL,NULL,NULL );
 }

@@ -1,7 +1,7 @@
 /****************************************************************************************** 
  *	Chili DirectX Framework Version 11.12.17											  *	
- *	Game.h																				  *
- *	Copyright 2011 PlanetChili.net														  *
+ *	D3DGraphics.h																		  *
+ *	Copyright 2011 PlanetChili <http://www.planetchili.net>								  *
  *																						  *
  *	This file is part of The Chili DirectX Framework.									  *
  *																						  *
@@ -20,26 +20,22 @@
  ******************************************************************************************/
 #pragma once
 
-#include "D3DGraphics.h"
-#include "Keyboard.h"
+#include <d3d9.h>
+#include "Constants.h"
 
-class Game
+class D3DGraphics
 {
 public:
-	Game( HWND hWnd,const KeyboardServer& kServer );
-	void Go();
+	D3DGraphics( HWND hWnd );
+	~D3DGraphics();
+	void PutPixel( int x,int y,int r,int g,int b );
+	void PutPixel( int X, int Y, Color C );
+	void BeginFrame();
+	void EndFrame();
 private:
-	void ComposeFrame();
-	/********************************/
-	/*  User Functions              */
-	// TODO: User functions go here
-
-	/********************************/
-private:
-	D3DGraphics gfx;
-	KeyboardClient kbd;
-	/********************************/
-	/*  User Variables              */
-	// TODO: User variables go here
-	/********************************/
+	IDirect3D9*			pDirect3D;
+	IDirect3DDevice9*	pDevice;
+	IDirect3DSurface9* pBackBuffer;
+	D3DLOCKED_RECT rect;
+	uint *pSysBuffer;
 };
