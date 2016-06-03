@@ -9,7 +9,7 @@ Sphere::Sphere()
 	color = gray;
 }
 
-Sphere::Sphere( Vec4 && Center, float Rad, Color C )
+Sphere::Sphere( const Vec3 &Center, float Rad, Color C )
 	:
 	center(Center),
 	radius(Rad)
@@ -23,33 +23,31 @@ Sphere::~Sphere()
 
 float Sphere::FindIntersection( const Ray & RayInst )
 {
-	Vec4 ro( RayInst.origin );
-	Vec4 rd( RayInst.direction );
-	Vec4 ctm( center - ro);
-	Vec4 b_ctm( ctm * 2.0f );
+	Vec3 ro( RayInst.origin );
+	Vec3 rd( RayInst.direction );
+	Vec3 sc( center );
+	float rad = radius;
+
+	Vec3 ctm( ro - sc );
 	float a = 1.0f;
-	float b = Dot3( b_ctm, rd );
-	float c = Dot3( ctm, ctm ) - Sq( radius );
+	float b = DotProduct( ctm * 2.0f, rd );
+	float c = DotProduct( ctm, ctm ) - Sq( rad );
 
 	float disc = Sq( b ) - ( 4.0f * c );
-	if( disc >= 0.0f )
+	float result = -1.0f;
+
+	if( disc <= 0.0f )
 	{
-		float root = ( ( -b - sqrtf( disc ) ) * 0.5f );
-		if( root > 0.0f )
-		{
-			return root;
-		}
-		else
-		{
-			root = ( sqrtf( disc ) - b ) * 0.5f;
-			return root;
-		}
+		return result;
 	}
 
-	return -1.0f;
+	float root = ( ( -1.0f * b - sqrtf( disc ) ) * 0.5f );
+	result = root > 0.0f ? root : ( sqrtf( disc ) - b ) * 0.5f;
+
+	return result;
 }
 
-Vec4 Sphere::GetNormalAt( const Vec4 & Point )
+Vec3 Sphere::GetNormalAt( const Vec3 &Point )const
 {
 	return Normalize( Point - center );
 }

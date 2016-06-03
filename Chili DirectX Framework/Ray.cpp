@@ -5,7 +5,7 @@
 Ray::Ray()
 {}
 
-Ray::Ray( const Vec4 &Orig, const Vec4 &Dir )
+Ray::Ray( const Vec3 &Orig, const Vec3 &Dir )
 	:
 	origin(Orig),
 	direction(Dir)

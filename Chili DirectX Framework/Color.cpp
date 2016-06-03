@@ -63,6 +63,14 @@ Color Avg( Color C0, Color C1 )
 	return MakeColor( rr, rg, rb, ra );
 }
 
+uint Brightness( const Color & C )
+{
+	auto r = GetRed( C );
+	auto g = GetGreen( C );
+	auto b = GetBlue( C );
+	return ( r + g + b ) / 3;
+}
+
 Color Color::operator+( Color C ) const
 {
 	uint r = Saturate( GetRed( *this ) + GetRed( C ) );
@@ -115,4 +123,13 @@ Color Color::operator/( Color C ) const
 	uint b = Saturate( ( GetBlue( *this ) << 8) / db );
 
 	return MakeColor( r, g, b );
+}
+
+bool Color::operator==( const Color & C )
+{
+	bool same = GetRed( *this ) == GetRed( C ) &&
+		GetGreen( *this ) == GetGreen( C ) &&
+		GetBlue( *this ) == GetBlue( C );
+
+	return same;
 }

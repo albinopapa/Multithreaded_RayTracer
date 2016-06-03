@@ -5,7 +5,7 @@
 Camera::Camera()
 {}
 
-Camera::Camera( Vec4 && Position)
+Camera::Camera( const Vec3 &Position)
 	:
 	position(Position)
 {}
@@ -14,12 +14,12 @@ Camera::Camera( Vec4 && Position)
 Camera::~Camera()
 {}
 
-void Camera::LookAt( const Vec4 & Point )
+void Camera::LookAt( const Vec3 &Point )
 {
-	Vec4 diff( position - Point );
-	direction = Normalize( -diff );
-	down = CrossProduct( Y, direction );
-	right = CrossProduct( X, direction );
+	Vec3 diff( position - Point );
+	direction = -Normalize( diff );
+	right = Normalize(CrossProduct( Y, direction ));
+	down = CrossProduct( right, direction );
 }
 
 void Camera::Update()

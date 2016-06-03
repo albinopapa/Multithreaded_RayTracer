@@ -5,12 +5,12 @@ class Camera
 {
 public:
 	Camera();
-	Camera( Vec4 &&Position);
+	Camera( const Vec3 &Position);
 	~Camera();
 
-	void LookAt( const Vec4 &Point );
+	void LookAt( const Vec3 &Point );
 	void Update();
 
-	Vec4 position, direction, right, down;
+	Vec3 position, direction, right, down;
 };
 

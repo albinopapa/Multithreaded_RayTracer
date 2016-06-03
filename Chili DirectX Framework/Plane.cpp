@@ -10,7 +10,7 @@ Plane::Plane()
 	color = gray;
 }
 
-Plane::Plane( Vec4 && Norm, float Dist, Color C )
+Plane::Plane( const Vec3 &Norm, float Dist, Color C )
 	:
 	normal(Norm),
 	distance(Dist)
@@ -22,16 +22,26 @@ Plane::Plane( Vec4 && Norm, float Dist, Color C )
 Plane::~Plane()
 {}
 
+Vec3 Plane::GetNormalAt( const Vec3 & Point_of_Intersection )const
+{
+	return normal;
+}
+
 float Plane::FindIntersection( const Ray & RayInst )
 {
-	float a = Dot3( RayInst.direction, normal );
+	Vec3 ro( RayInst.origin );
+	Vec3 rd( RayInst.direction );
+	Vec3 pn( normal );
+	float pd = distance;
+
+	float a = DotProduct( rd, pn );
 
 	if( a == 0.0f )
 	{
 		return -1.0f;
 	}
 
-	float b = Dot3( normal, ( RayInst.origin + ( -( normal * distance ) ) ) );
+	float b = DotProduct( pn, ( ro - ( pn * pd ) ) );
 
 	return -( b / a );
 }

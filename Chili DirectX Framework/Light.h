@@ -5,10 +5,10 @@ class PointLight
 {
 public:
 	PointLight();
-	PointLight( Vec4 &&Pos, Color C );
+	PointLight( const Vec3 &Pos, const Color &C );
 	~PointLight();
 
-	Vec4 position;
+	Vec3 position;
 	Color color;
 };
 

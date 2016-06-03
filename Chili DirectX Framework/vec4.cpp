@@ -1,6 +1,5 @@
 #include "vec4.h"
-
-
+#include "Vec3.h"
 
 Vec4::Vec4()
 	:
@@ -18,8 +17,12 @@ Vec4::Vec4( float X, float Y, float Z, float W )
 	w(W)
 {}
 
-
-Vec4::~Vec4()
+Vec4::Vec4( const Vec3 & V )
+	:
+	x(V.x),
+	y(V.y),
+	z(V.z),
+	w(1.0f)
 {}
 
 Vec4 Vec4::operator+( const Vec4 & V )const

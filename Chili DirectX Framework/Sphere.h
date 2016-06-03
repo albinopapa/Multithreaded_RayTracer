@@ -5,12 +5,12 @@ class Sphere :
 {
 public:
 	Sphere();
-	Sphere( Vec4 &&Center, float Rad, Color C );
+	Sphere( const Vec3 &Center, float Rad, Color C );
 	~Sphere();
 	float FindIntersection( const Ray & RayInst )override;
-	Vec4 GetNormalAt( const Vec4 &Point );
+	Vec3 GetNormalAt( const Vec3 &Point )const override;
 
-	Vec4 center;
+	Vec3 center;
 	float radius;
 };
 

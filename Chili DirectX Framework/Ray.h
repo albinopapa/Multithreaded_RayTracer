@@ -1,13 +1,13 @@
 #pragma once
-#include "vec4.h"
+#include "Vec3.h"
 
 class Ray
 {
 public:
 	Ray();
-	Ray( const Vec4 &Orig, const Vec4 &Dir );
+	Ray( const Vec3 &Orig, const Vec3 &Dir );
 	~Ray();
 
-	Vec4 origin, direction;
+	Vec3 origin, direction;
 };
 

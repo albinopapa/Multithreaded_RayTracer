@@ -31,6 +31,8 @@
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="Vec3.cpp" />
     <ClCompile Include="vec4.cpp" />
     <ClCompile Include="Windows.cpp" />
   </ItemGroup>
@@ -50,6 +52,8 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="Vec3.h" />
     <ClInclude Include="vec4.h" />
   </ItemGroup>
   <ItemGroup>
